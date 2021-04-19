@@ -1,4 +1,5 @@
 import ErrorHandler from "./../models/ErrorHandler";
+import { IUser, User } from "./../models/UserModel";
 class userController {
   defaultMethod() {
     throw new ErrorHandler(501, "Not implemented method");
@@ -12,8 +13,13 @@ class userController {
     return "GET USERS BY ID";
   }
 
-  postNewUser() {
-    return "POST NEW USER";
+  async postNewUser(userData: IUser) {
+    try {
+      const user: IUser = await User.create(userData);
+      return user;
+    } catch (error) {
+      return error;
+    }
   }
 
   updateUser(id: string) {

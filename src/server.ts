@@ -21,6 +21,7 @@ class Server {
 
 // initialize server app
 const server = new Server();
+server.app.use(express.json());
 server.app.use("/api", server.router);
 server.app.use(
   (err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
@@ -44,6 +45,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    () => console.log(`> Listening on port ${port}`);
+    server.app.listen(port, () => {
+      console.log("Running on port", port);
+    });
   })
   .catch((err: any) => console.log(err));

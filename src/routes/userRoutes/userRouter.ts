@@ -37,6 +37,18 @@ class userRouter {
         }
       }
     );
+
+    this._router.post(
+      "/",
+      async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const result = await this._controller.postNewUser(req.body);
+          res.status(200).json(result);
+        } catch (error) {
+          next(error);
+        }
+      }
+    );
   }
 }
 
