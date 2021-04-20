@@ -4,12 +4,16 @@ import mongoose from "mongoose";
 import ErrorHandler from "./models/ErrorHandler";
 import MasterRouter from "./routes/MasterRouter";
 const listEndpoints = require("express-list-endpoints");
-
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 // load the environment variables from the .env file
 dotenv.config({
   path: ".env",
 });
-
+const corsOptions = {
+  origin: `http://localhost:4000`,
+  credentials: true, //to allow cookies
+};
 /**
  * Express server application class.
  * @description Will later contain the routing system.
@@ -21,7 +25,9 @@ class Server {
 
 // initialize server app
 const server = new Server();
+server.app.use(cors(corsOptions));
 server.app.use(express.json());
+server.app.use(cookieParser());
 server.app.use("/api", server.router);
 server.app.use(
   (err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {

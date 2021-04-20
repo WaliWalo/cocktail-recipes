@@ -1,12 +1,13 @@
 import { model, Schema, Model, Document } from "mongoose";
 const bcrypt = require("bcryptjs");
+import cocktailController from "../controllers/cocktailController";
 
 export interface IUser extends Document {
   email: string;
   firstName: string;
   lastName: string;
   password?: string;
-  favs: Array<string>;
+  favs: [string];
 }
 
 const UserSchema: Schema = new Schema(
@@ -20,6 +21,7 @@ const UserSchema: Schema = new Schema(
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
         "Please fill a valid email address",
       ],
+      unique: true,
     },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -40,7 +42,6 @@ const UserSchema: Schema = new Schema(
 UserSchema.pre<IUser>("save", async function (next) {
   const user = this;
   const plainPW = user.password;
-  console.log(user);
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(plainPW, 10);
   }

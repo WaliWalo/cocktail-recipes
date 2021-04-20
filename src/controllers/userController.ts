@@ -1,16 +1,39 @@
+import { Query } from "mongoose";
 import ErrorHandler from "./../models/ErrorHandler";
 import { IUser, User } from "./../models/UserModel";
+
 class userController {
   defaultMethod() {
     throw new ErrorHandler(501, "Not implemented method");
   }
 
-  getUsersMethod() {
-    return "GET USERS";
+  async getUsersMethod() {
+    try {
+      const users = await User.find({});
+      if (users.length !== 0) {
+        return users;
+      } else {
+        throw new ErrorHandler(404, "Users not found");
+      }
+    } catch (error) {
+      return error;
+    }
   }
 
-  getUsersByIdMethod(id: string) {
-    return "GET USERS BY ID";
+  async getUsersByIdMethod(id: string) {
+    try {
+      const user: IUser | null = await User.findById(id);
+
+      if (user) {
+        return user;
+      } else {
+        throw new ErrorHandler(404, "User not found");
+      }
+    } catch (error) {
+      if (error.value) {
+        throw new ErrorHandler(404, "User not found");
+      } else return error;
+    }
   }
 
   async postNewUser(userData: IUser) {
@@ -18,16 +41,46 @@ class userController {
       const user: IUser = await User.create(userData);
       return user;
     } catch (error) {
-      return error;
+      if (error.code === 11000) {
+        throw new ErrorHandler(404, "Email has already been used");
+      } else return error;
     }
   }
 
-  updateUser(id: string) {
-    return "UPDATE USER";
+  async updateUser(id: string, body: IUser) {
+    try {
+      const user: IUser | null = await User.findOneAndUpdate(
+        { _id: id },
+        body,
+        { new: true, useFindAndModify: false }
+      );
+      if (user) {
+        return user;
+      } else {
+        throw new ErrorHandler(404, "User not found");
+      }
+    } catch (error) {
+      if (error.reason) {
+        throw new ErrorHandler(404, "User not found");
+      } else return error;
+    }
   }
 
-  deleteUser(id: string) {
-    return "DELETE USER";
+  async deleteUser(id: string) {
+    try {
+      const user: IUser | null = await User.findOneAndDelete({
+        _id: id,
+      });
+      if (user) {
+        return `${id} deleted`;
+      } else {
+        throw new ErrorHandler(404, "User not found");
+      }
+    } catch (error) {
+      if (error.reason) {
+        throw new ErrorHandler(404, "User not found");
+      } else return error;
+    }
   }
 }
 

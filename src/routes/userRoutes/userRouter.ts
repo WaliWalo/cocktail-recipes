@@ -17,20 +17,26 @@ class userRouter {
    * Connect routes to their matching controller endpoints.
    */
   private _configure() {
-    this._router.get("/", (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const result = this._controller.getUsersMethod();
-        res.status(200).json(result);
-      } catch (error) {
-        next(error);
+    this._router.get(
+      "/",
+      async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const result = await this._controller.getUsersMethod();
+
+          res.status(200).json(result);
+        } catch (error) {
+          next(error);
+        }
       }
-    });
+    );
 
     this._router.get(
       "/:id",
-      (req: Request, res: Response, next: NextFunction) => {
+      async (req: Request, res: Response, next: NextFunction) => {
         try {
-          const result = this._controller.getUsersByIdMethod("rew");
+          const result = await this._controller.getUsersByIdMethod(
+            req.params.id
+          );
           res.status(200).json(result);
         } catch (error) {
           next(error);
@@ -43,6 +49,45 @@ class userRouter {
       async (req: Request, res: Response, next: NextFunction) => {
         try {
           const result = await this._controller.postNewUser(req.body);
+          res.status(200).json(result);
+        } catch (error) {
+          next(error);
+        }
+      }
+    );
+
+    this._router.put(
+      "/:id",
+      async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const result = await this._controller.updateUser(
+            req.params.id,
+            req.body
+          );
+          res.status(200).json(result);
+        } catch (error) {
+          next(error);
+        }
+      }
+    );
+
+    this._router.delete(
+      "/:id",
+      async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const result = await this._controller.deleteUser(req.params.id);
+          res.status(200).json(result);
+        } catch (error) {
+          next(error);
+        }
+      }
+    );
+
+    this._router.post(
+      "/login",
+      async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const result = await this._controller.deleteUser(req.params.id);
           res.status(200).json(result);
         } catch (error) {
           next(error);
