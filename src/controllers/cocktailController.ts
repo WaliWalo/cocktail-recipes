@@ -43,7 +43,7 @@ class cocktailController {
       const response = await axios.get(url);
       if (response.statusText === "OK") {
         if (response.data.drinks) {
-          return response.data;
+          return response.data.drinks;
         } else {
           throw new ErrorHandler(404, "No drinks found");
         }

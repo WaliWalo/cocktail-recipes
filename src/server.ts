@@ -11,7 +11,7 @@ dotenv.config({
   path: ".env",
 });
 const corsOptions = {
-  origin: `http://localhost:4000`,
+  origin: `http://localhost:3000`,
   credentials: true, //to allow cookies
 };
 /**
