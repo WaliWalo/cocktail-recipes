@@ -39,6 +39,7 @@ class userController {
   async postNewUser(userData: IUser) {
     try {
       const user: IUser = await User.create(userData);
+
       return user;
     } catch (error) {
       if (error.code === 11000) {

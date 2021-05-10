@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import userController from "../../controllers/userController";
+import authController from "../../controllers/authController";
+const { authenticate } = require("../../controllers/authTools");
 
 class userRouter {
   private _router = Router();
@@ -49,6 +51,21 @@ class userRouter {
       async (req: Request, res: Response, next: NextFunction) => {
         try {
           const result = await this._controller.postNewUser(req.body);
+
+          if (req.body.password !== undefined) {
+            const authRes = await authController.login({
+              email: req.body.email,
+              password: req.body.password,
+            });
+            if (authRes) {
+              const token = await authenticate(authRes);
+
+              res.status(201).cookie("accessToken", token.token, {
+                httpOnly: true,
+              });
+            }
+          }
+
           res.status(200).json(result);
         } catch (error) {
           next(error);
@@ -73,18 +90,6 @@ class userRouter {
 
     this._router.delete(
       "/:id",
-      async (req: Request, res: Response, next: NextFunction) => {
-        try {
-          const result = await this._controller.deleteUser(req.params.id);
-          res.status(200).json(result);
-        } catch (error) {
-          next(error);
-        }
-      }
-    );
-
-    this._router.post(
-      "/login",
       async (req: Request, res: Response, next: NextFunction) => {
         try {
           const result = await this._controller.deleteUser(req.params.id);

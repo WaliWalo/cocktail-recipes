@@ -32,7 +32,7 @@ class authRouter {
               .cookie("accessToken", token.token, {
                 httpOnly: true,
               })
-              .send({ status: "ok", message: "Logged In" });
+              .send({ status: "ok", message: "Logged In", user: result });
           } else {
             res
               .status(201)
