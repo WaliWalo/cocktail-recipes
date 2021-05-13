@@ -3,6 +3,8 @@ import { User } from "./../models/UserModel";
 import ErrorHandler from "./../models/ErrorHandler";
 const jwt = require("jsonwebtoken");
 const { verifyJWT } = require("./authTools");
+const { authenticate } = require("./authTools");
+
 const authorize = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies.accessToken;
@@ -14,7 +16,6 @@ const authorize = async (req: Request, res: Response, next: NextFunction) => {
       const error = new ErrorHandler(401, "Please authenticate");
       next(error);
     }
-
     // req.token = token;
     // req.user = user;
     next();

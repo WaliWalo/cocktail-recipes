@@ -5,6 +5,8 @@ import ErrorHandler from "./models/ErrorHandler";
 import MasterRouter from "./routes/MasterRouter";
 const listEndpoints = require("express-list-endpoints");
 const cors = require("cors");
+const oauth = require("./controllers/oauth");
+const passport = require("passport");
 const cookieParser = require("cookie-parser");
 // load the environment variables from the .env file
 dotenv.config({
@@ -28,6 +30,7 @@ const server = new Server();
 server.app.use(cors(corsOptions));
 server.app.use(express.json());
 server.app.use(cookieParser());
+server.app.use(passport.initialize());
 server.app.use("/api", server.router);
 server.app.use(
   (err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {

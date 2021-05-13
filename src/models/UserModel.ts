@@ -8,6 +8,9 @@ export interface IUser extends Document {
   lastName: string;
   password?: string;
   favs: [string];
+  googleId?: String;
+  facebookId?: String;
+  token?: String;
 }
 
 const UserSchema: Schema = new Schema(
@@ -27,6 +30,8 @@ const UserSchema: Schema = new Schema(
     lastName: { type: String, required: true },
     password: { type: String, required: true },
     favs: [{ type: String }],
+    googleId: String,
+    facebookId: String,
   },
   {
     timestamps: true,

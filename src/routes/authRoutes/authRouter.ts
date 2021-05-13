@@ -1,7 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
+const passport = require("passport");
 import authController from "../../controllers/authController";
 const { authenticate } = require("../../controllers/authTools");
-
+interface AuthRequest extends Request {
+  user?: { _id?: string };
+}
 class authRouter {
   private _router = Router();
   private _controller = authController;
@@ -49,6 +52,68 @@ class authRouter {
       (req: Request, res: Response, next: NextFunction) => {
         res.clearCookie("accessToken");
         res.send({ status: "ok", message: "Logged Out" });
+      }
+    );
+
+    this._router.get(
+      "/googleLogin",
+      passport.authenticate("google", { scope: ["profile", "email"] }),
+      (req: Request, res: Response, next: NextFunction) => {}
+    );
+
+    this._router.get(
+      "/facebookLogin",
+      passport.authenticate("facebook", {
+        scope: "email",
+      }),
+      (req: Request, res: Response, next: NextFunction) => {}
+    );
+
+    this._router.get(
+      "/googleRedirect",
+      passport.authenticate("google"),
+      async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+          const { token } = await authenticate(req.user);
+          req.user !== undefined &&
+            res
+              .status(200)
+              .cookie("accessToken", token, {
+                httpOnly: true,
+              })
+              .redirect(
+                `${process.env.REACT_APP_FE_URL}/?userId=${req.user._id}`
+              );
+        } catch (error) {
+          next(error);
+        }
+      }
+    );
+
+    this._router.get(
+      "/facebookRedirect",
+      passport.authenticate("facebook", { failureRedirect: "/" }),
+      async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+          const { token } = await authenticate(req.user);
+          req.user !== undefined &&
+            res
+              .status(200)
+              .cookie("accessToken", token, {
+                httpOnly: true,
+              })
+              .redirect(
+                `${process.env.REACT_APP_FE_URL}/?userId=${req.user._id}`
+              );
+
+          // {
+          //   secure: true,
+          //   sameSite: "none",
+          //   httpOnly: true,
+          // }
+        } catch (error) {
+          next(error);
+        }
       }
     );
   }
