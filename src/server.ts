@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import ErrorHandler from "./models/ErrorHandler";
@@ -9,9 +9,9 @@ const oauth = require("./controllers/oauth");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 // load the environment variables from the .env file
-dotenv.config({
-  path: ".env",
-});
+// dotenv.config({
+//   path: ".env",
+// });
 const corsOptions = {
   origin: `http://localhost:3000`,
   credentials: true, //to allow cookies

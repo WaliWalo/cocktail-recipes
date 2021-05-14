@@ -1,6 +1,5 @@
-import { Query } from "mongoose";
-import ErrorHandler from "./../models/ErrorHandler";
-import { User } from "./../models/UserModel";
+const ErrorHandler = require("./../models/ErrorHandler");
+const { User } = require("./../models/UserModel");
 const bcrypt = require("bcryptjs");
 
 interface ICredentials {

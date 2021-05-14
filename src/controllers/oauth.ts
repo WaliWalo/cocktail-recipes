@@ -1,16 +1,13 @@
+// import dotenv from "dotenv";
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
-// const mongoose = require("mongoose");
-// const UserSchema = require("../models/userModel");
-// const UserModel = mongoose.model("User", UserSchema);
 const { authenticate } = require("./authTools");
 import { NextFunction, Request } from "express";
 import { IUser, User } from "./../models/UserModel";
-import dotenv from "dotenv";
-dotenv.config({
-  path: ".env",
-});
+// dotenv.config({
+//   path: ".env",
+// });
 interface Profile {
   provider: String;
   id: String;

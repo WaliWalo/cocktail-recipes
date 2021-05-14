@@ -4,9 +4,17 @@
   "description": "cocktail-recipes",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.ts ",
+    "dev": "node -r dotenv/config src/server.ts ",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server.ts"
+    "build-ts": "tsc",
+    "postinstall": "npm run build-ts",
+    "start": "npm run serve",
+    "serve": "node -r dotenv/config ./src/server.ts",
+    "watch-node": "nodemon -r dotenv/config ./src/server.ts",
+    "watch-ts": "tsc -w"
+  },
+  "engines": {
+    "node": "8.11.4"
   },
   "keywords": [],
   "author": "",
@@ -35,12 +43,13 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
+    "@types/express-list-endpoints": "^4.0.1",
     "@types/node": "^14.14.41",
-    "nodemon": "^2.0.7",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4",
     "@types/passport": "^1.0.6",
     "@types/passport-facebook": "^2.1.10",
-    "@types/passport-google-oauth20": "^2.0.7"
+    "@types/passport-google-oauth20": "^2.0.7",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   }
 }
