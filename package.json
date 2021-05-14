@@ -10,7 +10,7 @@
     "build-ts": "tsc",
     "postinstall": "npm run build-ts",
     "start": "npm run serve",
-    "serve": "node -r dotenv/config  src/server.js",
+    "serve": "node -r dotenv/config src/server.js",
     "watch-node": "nodemon -r dotenv/config src/server.js",
     "watch-ts": "tsc -w"
   },
