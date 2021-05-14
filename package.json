@@ -3,15 +3,15 @@
   "name": "cocktail-recipes",
   "version": "1.0.0",
   "description": "cocktail-recipes",
-  "main": "dist/server.js",
+  "main": "dist/src/server.js",
   "scripts": {
     "dev": "node -r dotenv/config src/server.ts ",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-ts": "tsc",
     "postinstall": "npm run build-ts",
     "start": "npm run serve",
-    "serve": "node -r dotenv/config dist/server.js",
-    "watch-node": "nodemon -r dotenv/config dist/server.js",
+    "serve": "node -r dotenv/config dist/src/server.js",
+    "watch-node": "nodemon -r dotenv/config dist/src/server.js",
     "watch-ts": "tsc -w"
   },
   "engines": {
