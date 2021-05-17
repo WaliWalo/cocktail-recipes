@@ -46,8 +46,7 @@ console.log(listEndpoints(server.app));
 const mongoConnectionStr: string =
   process.env.MONGO_CONNECTION ||
   "Something wrong with mongo connection string";
-const port = process.env.APP_PORT || 5000;
-
+const port = process.env.PORT || 5000;
 mongoose
   .connect(mongoConnectionStr, {
     useNewUrlParser: true,
