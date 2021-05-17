@@ -13,7 +13,7 @@ dotenv.config({
   path: ".env",
 });
 const corsOptions = {
-  origin: `http://localhost:3000`,
+  origin: `${process.env.REACT_APP_FE_URL}`,
   credentials: true, //to allow cookies
 };
 /**
