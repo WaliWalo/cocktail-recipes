@@ -33,6 +33,8 @@ class authRouter {
             res
               .status(201)
               .cookie("accessToken", token.token, {
+                secure: true,
+                sameSite: "none",
                 httpOnly: true,
               })
               .send(result);
@@ -79,6 +81,8 @@ class authRouter {
             res
               .status(200)
               .cookie("accessToken", token, {
+                secure: true,
+                sameSite: "none",
                 httpOnly: true,
               })
               .redirect(
@@ -100,6 +104,8 @@ class authRouter {
             res
               .status(200)
               .cookie("accessToken", token, {
+                secure: true,
+                sameSite: "none",
                 httpOnly: true,
               })
               .redirect(

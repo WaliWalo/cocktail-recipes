@@ -27,6 +27,8 @@ class Server {
 
 // initialize server app
 const server = new Server();
+server.app.set("trust proxy", 1);
+server.app.enable("trust proxy");
 server.app.use(cors(corsOptions));
 server.app.use(express.json());
 server.app.use(cookieParser());
